@@ -20,6 +20,8 @@ clientgateway:
     websocket_reconnect_timeout: 10000
     # -- Define how many times the WebSocket client should attempt reconnection with the server upon receving connection error/close.
     websocket_reconnect_max_retries: 10
+    # -- Define the websocket message pooling timeout.
+    websocket_pooling_timeout: 834000
     # -- Defines the format for messages pushed over a real-time communication channel. If bulk mode is chosen, messages will be sent as an array. At every 1 second interval, the gateway will emit an array of the latest messages received. If single mode is chosen, messages will be sent individually. Options: BULK, SINGLE
     events_emit_mode: BULK
     # -- Defines how many events should be pushed per second, regardless of mode chosen (see above).
@@ -40,6 +42,8 @@ clientgateway:
     secret_engine: vault
     # -- Sets the secret engine endpoint. the secret engine server URL.
     secret_engine_endpoint: http://vault.ddhub-dev.svc:8200
+    # -- Sets the secret prefix in the secret engine.
+    secret_prefix: "ddhub/"
     # -- Sets the application environment.
     node_env: test
     # -- Sets the database name / path for channel configurations.
