@@ -57,5 +57,21 @@ spec:
               servicePort: {{ $svcPort }}
               {{- end }}
           {{- end }}
+          {{- if .Values.clientgateway.ui.enabled }}
+          - path: /
+            {{- if and .pathType (semverCompare ">=1.18-0" $.Capabilities.KubeVersion.GitVersion) }}
+            pathType: Prefix
+            {{- end }}
+            backend:
+              {{- if semverCompare ">=1.19-0" $.Capabilities.KubeVersion.GitVersion }}
+              service:
+                name: {{ $fullName }}-ui
+                port:
+                  number: {{ .Values.clientgateway.ui.service.port }}
+              {{- else }}
+              serviceName: {{ $fullName }}-ui
+              servicePort: {{ .Values.clientgateway.ui.service.port }}
+              {{- end }}
+          {{- end }}
     {{- end }}
 {{- end }}

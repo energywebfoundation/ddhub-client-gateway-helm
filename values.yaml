@@ -71,6 +71,29 @@ clientgateway:
     appConfig:
       DID_AUTH_URL: "http://ddhub-messagebroker-proxy-dev.ddhub-dev.svc"
       DID_REGISTRY_ADDRESS: "0xc15d5a57a8eb0e1dcbe5d88b8f9a82017e5cc4af"
+  ui:
+    enabled: true
+    replicaCount: 1
+    image:
+      repository: aemocontainerregistry.azurecr.io/ddhub-client-gateway-frontend
+      pullPolicy: IfNotPresent
+      # Overrides the image tag whose default is the chart appVersion.
+      tag: canary
+    podAnnotations: {}
+    resources: {}
+    probes: 
+      liveness: true
+      readiness: true
+    port: 80
+    autoscaling:
+      enabled: false
+      minReplicas: 1
+      maxReplicas: 100
+      targetCPUUtilizationPercentage: 80
+      # targetMemoryUtilizationPercentage: 80
+    service:
+      type: ClusterIP
+      port: 80
 
 image:
   # repository: 098061033856.dkr.ecr.us-east-1.amazonaws.com/ew-dos-dsb-ecr
@@ -116,13 +139,28 @@ ingress:
   hosts:
     - host: ddhub-gateway-api-dev.energyweb.org
       paths:
-      - path: /*
+      - path: /docs
         pathType: Prefix
         backend:
-          serviceName: ddhub-client-gateway-api
+          serviceName: ddhub-client-gateway
+          servicePort: 80
+      - path: /api
+        pathType: Prefix
+        backend:
+          serviceName: ddhub-client-gateway
+          servicePort: 80
+      - path: /docs-json
+        pathType: Prefix
+        backend:
+          serviceName: ddhub-client-gateway
+          servicePort: 80
+      - path: /events
+        pathType: Prefix
+        backend:
+          serviceName: ddhub-client-gateway
           servicePort: 80
   tls:
-    - secretName: dsb-tls-secret
+    - secretName: ddhub-tls-secret
       hosts:
         - ddhub-gateway-api-dev.energyweb.org
 
