@@ -9,7 +9,7 @@ spec:
   type: {{ .Values.clientgateway.ui.service.type }}
   ports:
     - port: {{ .Values.clientgateway.ui.service.port }}
-      targetPort: http
+      targetPort: {{ .Values.clientgateway.ui.port }}
       protocol: TCP
       name: http
   selector:

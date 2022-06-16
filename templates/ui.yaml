@@ -40,13 +40,13 @@ spec:
           livenessProbe:
             httpGet:
               path: /
-              port: http
+              port: {{ .Values.clientgateway.ui.port }}
           {{- end }}
           {{- if .Values.clientgateway.ui.probes.readiness }}
           readinessProbe:
             httpGet:
               path: /
-              port: http
+              port: {{ .Values.clientgateway.ui.port }}
           {{- end }}
       {{- with .Values.nodeSelector }}
       nodeSelector:
