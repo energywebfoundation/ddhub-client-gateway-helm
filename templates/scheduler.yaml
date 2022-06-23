@@ -36,12 +36,8 @@ spec:
           envFrom:
             - configMapRef:
                 name: {{ include "ddhub-client-gateway-api.fullname" . }}-configmap
-          env:
-            - name: VAULT_TOKEN
-              valueFrom:
-                secretKeyRef:
-                  name: {{ include "ddhub-client-gateway-api.fullname" . }}-secret
-                  key: vault_token
+            - secretRef:
+                name: {{ include "ddhub-client-gateway-api.fullname" . }}-secret
           {{- if .Values.clientgateway.scheduler.probes.liveness }}
           livenessProbe:
             exec: 
