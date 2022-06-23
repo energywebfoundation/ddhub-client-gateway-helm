@@ -27,6 +27,34 @@ spec:
       serviceAccountName: {{ include "ddhub-client-gateway-api.serviceAccountName" . }}
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      initContainers:
+        - name: {{ .Chart.Name }}-typeorm-migrations
+          resources:
+          {{- toYaml .Values.resources | nindent 12 }}
+          envFrom:
+            - configMapRef:
+                name: {{ include "ddhub-client-gateway-api.fullname" . }}-configmap
+            - secretRef:
+                name: {{ include "ddhub-client-gateway-api.fullname" . }}-secret
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          command:
+            - "npm"
+            - "run"
+            - "migrations:run"
+          {{- if or .Values.pvc.enabled .Values.existingClaim.enabled }}
+          volumeMounts:
+            {{- if .Values.pvc.enabled }}
+            - mountPath: {{ .Values.pvc.mountPath | quote }}
+              name: volume
+            {{- end }}
+            {{- if .Values.existingClaim.enabled }}
+            - mountPath: {{ .Values.existingClaim.mountPath | quote }}
+              name: existingclaim
+          {{- end }}
+      {{- end }}
       containers:
         - name: {{ .Chart.Name }}
           securityContext:
