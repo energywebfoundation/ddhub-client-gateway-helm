@@ -37,7 +37,7 @@ clientgateway:
     # -- Sets the Energy Web IAM events server URL, used to receive notification of approved DSB role claims.
     event_server_url: https://identitycache-staging.energyweb.org/
     # -- Sets the Energy Web IAM application namespace. DSB related roles, such as user and messagebroker should fall under this namespace.
-    parent_namespace: dsb.apps.energyweb.iam.ewc
+    parent_namespace: ddhub.apps.energyweb.iam.ewc
     # -- Sets the secret engine for storing DID private key. it can be Vault/AWS SSM/Azure KeyVault/GCP Secret Manager.
     secret_engine: vault
     # -- Sets the secret engine endpoint. the secret engine server URL.
@@ -60,6 +60,8 @@ clientgateway:
     opentelemetry_otel_service_name: ""
     # -- Sets opentelemetry telemetry environment. default: "local"
     opentelemetry_otel_environment: ""
+    # -- Sets mTLS flag
+    mtls_enabled: true
   scheduler:
     enabled: false
     image:
@@ -213,6 +215,3 @@ existingClaim:
 probes: 
   liveness: true
   readiness: true
-
-ddhub-client-gateway-ui:
-  enabled: false

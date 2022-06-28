@@ -1,9 +1,10 @@
 # ddhub-client-gateway-api
 
-![Version: 1.0.2](https://img.shields.io/badge/Version-1.0.2-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 0.0.1](https://img.shields.io/badge/AppVersion-0.0.1-informational?style=flat-square)
+![Version: 1.0.3](https://img.shields.io/badge/Version-1.0.3-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 0.0.1](https://img.shields.io/badge/AppVersion-0.0.1-informational?style=flat-square)
 
 A Helm chart for Kubernetes
-## Introduction This is a repository with helm chart for DDHub Client Gateway application. For more information about DDHub Client Gateway please check the [repository](https://github.com/energywebfoundation/ddhub-client-gateway).
+### Introduction
+This is a repository with helm chart for DDHub Client Gateway application. For more information about DDHub Client Gateway please check the [repository](https://github.com/energywebfoundation/ddhub-client-gateway).
 
 ## Values
 
@@ -28,7 +29,7 @@ A Helm chart for Kubernetes
 | clientgateway.config.opentelemetry_otel_environment | string | `""` | Sets opentelemetry telemetry environment. default: "local" |
 | clientgateway.config.opentelemetry_otel_ignored_routes | string | `""` | Sets opentelemetry collector ignored routes. comma seperated, default: "health,api/v2/health" |
 | clientgateway.config.opentelemetry_otel_service_name | string | `""` | Sets opentelemetry telemetry service name. default: "ddhub-client-gateway" |
-| clientgateway.config.parent_namespace | string | `"dsb.apps.energyweb.iam.ewc"` | Sets the Energy Web IAM application namespace. DSB related roles, such as user and messagebroker should fall under this namespace. |
+| clientgateway.config.parent_namespace | string | `"ddhub.apps.energyweb.iam.ewc"` | Sets the Energy Web IAM application namespace. DSB related roles, such as user and messagebroker should fall under this namespace. |
 | clientgateway.config.port | int | `3333` | Define the port the gateway will run on. |
 | clientgateway.config.rpc_url | string | `"https://volta-rpc.energyweb.org/"` | Sets the blockchain RPC node to connect to retreive state from and submit transactions to. Should match the network given in CHAIN_ID. |
 | clientgateway.config.secret_engine | string | `"vault"` | Sets the secret engine for storing DID private key. it can be Vault/AWS SSM/Azure KeyVault/GCP Secret Manager. |
@@ -67,7 +68,6 @@ A Helm chart for Kubernetes
 | clientgateway.ui.resources | object | `{}` |  |
 | clientgateway.ui.service.port | int | `80` |  |
 | clientgateway.ui.service.type | string | `"ClusterIP"` |  |
-| ddhub-client-gateway-ui.enabled | bool | `false` |  |
 | existingClaim.claimName | string | `"my-claim"` |  |
 | existingClaim.enabled | bool | `false` |  |
 | existingClaim.mountPath | string | `"/mnt/claim"` |  |
