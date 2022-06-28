@@ -31,6 +31,7 @@ data:
   OTEL_IGNORED_ROUTES: {{ .Values.clientgateway.config.opentelemetry_otel_ignored_routes | quote }}
   OTEL_SERVICE_NAME: {{ .Values.clientgateway.config.opentelemetry_otel_service_name | quote }}
   OTEL_ENVIRONMENT: {{ .Values.clientgateway.config.opentelemetry_otel_environment | quote }}
+  MTLS_ENABLED: {{ .Values.clientgateway.config.mtls_enabled | quote }}
   {{- if .Values.clientgateway.scheduler.enabled }}
   {{- toYaml .Values.clientgateway.scheduler.appConfig | nindent 2 }}
   {{- end }}

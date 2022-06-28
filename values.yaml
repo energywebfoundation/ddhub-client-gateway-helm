@@ -60,6 +60,8 @@ clientgateway:
     opentelemetry_otel_service_name: ""
     # -- Sets opentelemetry telemetry environment. default: "local"
     opentelemetry_otel_environment: ""
+    # -- Sets mTLS flag
+    mtls_enabled: true
   scheduler:
     enabled: false
     image:
