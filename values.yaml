@@ -44,9 +44,9 @@ clientgateway:
     secret_engine_endpoint: http://vault.ddhub-dev.svc:8200
     # -- Sets the secret prefix in the secret engine.
     secret_prefix: "ddhub/"
-    # -- Sets the application environment.
+    # -- Sets the application running NODE environment. 'production' can be used for production mode.
     node_env: test
-    # -- Sets the database name / path for channel configurations.
+    # -- Sets the sqlite3 database name / path for channel configurations.
     db_name: 'local.db'
     # -- Sets to enable opentelemetry.
     opentelemetry_enabled: false
@@ -75,7 +75,6 @@ clientgateway:
       liveness: true
       readiness: true
     appConfig:
-      DID_AUTH_URL: "http://ddhub-messagebroker-proxy-dev.ddhub-dev.svc"
       DID_REGISTRY_ADDRESS: "0xc15d5a57a8eb0e1dcbe5d88b8f9a82017e5cc4af"
   ui:
     enabled: true
