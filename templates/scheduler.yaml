@@ -40,7 +40,7 @@ spec:
                 optional: false
             - configMapRef:
                 name: {{ .Values.config.configRefName }}
-            {{- else -}}
+            {{- else }}
             - configMapRef:
                 name: {{ include "ddhub-client-gateway-api.fullname" . }}-configmap
             - secretRef:

@@ -46,7 +46,7 @@ spec:
                 optional: false
             - configMapRef:
                 name: {{ .Values.config.configRefName }}
-            {{- else -}}
+            {{- else }}
             - configMapRef:
                 name: {{ include "ddhub-client-gateway-api.fullname" . }}-configmap
             - secretRef:
@@ -64,7 +64,7 @@ spec:
               path: /api/v2/health
               port: http
           {{- end }}
-          {{- if or .Values.pvc.enabled .Values.existingClaim.enabled }}
+          {{- if or .Values.pvc.enabled .Values.existingClaim.enabled .Values.secretProviderClass.enabled }}
           volumeMounts:
           {{- if .Values.pvc.enabled }}
           - mountPath: {{ .Values.pvc.mountPath | quote }}
@@ -73,6 +73,11 @@ spec:
           {{- if .Values.existingClaim.enabled }}
           - mountPath: {{ .Values.existingClaim.mountPath | quote }}
             name: existingclaim
+          {{- end }}
+          {{- if .Values.secretProviderClass.enabled }}
+          - mountPath: "/mnt/secrets-store"
+            name: secrets-store-inline
+            readOnly: true
           {{- end }}
           {{- end }}
       {{- if or .Values.pvc.enabled .Values.existingClaim.enabled }}
