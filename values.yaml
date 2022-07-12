@@ -120,6 +120,15 @@ serviceAccount:
   # If not set and create is true, a name is generated using the fullname template
   name: ""
 
+config: 
+  enabled: false
+  secretRefName: {}
+  configRefName: {}
+
+secretProviderClass: 
+  enable: false
+  name: 'my-provider'
+
 podAnnotations: {}
 
 podSecurityContext: {}
