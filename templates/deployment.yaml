@@ -40,10 +40,18 @@ spec:
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
           envFrom:
+            {{- if .Values.config.enabled }}
+            - secretRef:
+                name: {{ .Values.config.secretRefName }}
+                optional: false
+            - configMapRef:
+                name: {{ .Values.config.configRefName }}
+            {{- else -}}
             - configMapRef:
                 name: {{ include "ddhub-client-gateway-api.fullname" . }}-configmap
             - secretRef:
                 name: {{ include "ddhub-client-gateway-api.fullname" . }}-secret
+            {{- end }}
           {{- if .Values.probes.liveness }}
           livenessProbe:
             httpGet:
@@ -78,6 +86,14 @@ spec:
         - name: existingclaim
           persistentVolumeClaim:
             claimName: {{ .Values.existingClaim.claimName | quote }}
+        {{- end }}
+        {{- if .Values.secretProviderClass.enabled }}
+        - name: secrets-store-inline
+          csi:
+            driver: secrets-store.csi.k8s.io
+            readOnly: true
+            volumeAttributes:
+              secretProviderClass: {{ .Values.secretProviderClass.name | quote }}
         {{- end }}
       {{- end }}
       {{- with .Values.nodeSelector }}
