@@ -1,6 +1,6 @@
 # ddhub-client-gateway-api
 
-![Version: 1.0.4](https://img.shields.io/badge/Version-1.0.4-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 0.0.1](https://img.shields.io/badge/AppVersion-0.0.1-informational?style=flat-square)
+![Version: 1.1.0](https://img.shields.io/badge/Version-1.1.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 0.0.1](https://img.shields.io/badge/AppVersion-0.0.1-informational?style=flat-square)
 
 A Helm chart for Kubernetes
 ### Introduction
@@ -68,6 +68,9 @@ This is a repository with helm chart for DDHub Client Gateway application. For m
 | clientgateway.ui.resources | object | `{}` |  |
 | clientgateway.ui.service.port | int | `80` |  |
 | clientgateway.ui.service.type | string | `"ClusterIP"` |  |
+| config.configRefName | object | `{}` |  |
+| config.enabled | bool | `false` |  |
+| config.secretRefName | object | `{}` |  |
 | existingClaim.claimName | string | `"my-claim"` |  |
 | existingClaim.enabled | bool | `false` |  |
 | existingClaim.mountPath | string | `"/mnt/claim"` |  |
@@ -115,6 +118,8 @@ This is a repository with helm chart for DDHub Client Gateway application. For m
 | pvc.storageClassName | string | `"default"` |  |
 | replicaCount | int | `1` |  |
 | resources | object | `{}` |  |
+| secretProviderClass.enable | bool | `false` |  |
+| secretProviderClass.name | string | `"my-provider"` |  |
 | securityContext | object | `{}` |  |
 | service.port | int | `80` |  |
 | service.type | string | `"ClusterIP"` |  |
