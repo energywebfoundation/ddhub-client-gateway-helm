@@ -20,6 +20,7 @@ data:
   CACHE_SERVER_URL: {{ .Values.clientgateway.config.cache_server_url | quote }}
   EVENT_SERVER_URL: {{ .Values.clientgateway.config.event_server_url | quote }}
   PARENT_NAMESPACE: {{ .Values.clientgateway.config.parent_namespace | quote }}
+  NEXT_PUBLIC_PARENT_NAMESPACE: {{ .Values.clientgateway.config.next_public_parent_namespace | quote }}
   SECRETS_ENGINE: {{ .Values.clientgateway.config.secret_engine | quote }}
   VAULT_ENDPOINT: {{ .Values.clientgateway.config.secret_engine_endpoint | quote }}
   SECRET_PREFIX: {{ .Values.clientgateway.config.secret_prefix | quote }}
