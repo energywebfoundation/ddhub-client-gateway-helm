@@ -23,7 +23,7 @@ This is a repository with helm chart for DDHub Client Gateway application. For m
 | clientgateway.config.events_emit_mode | string | `"BULK"` | Defines the format for messages pushed over a real-time communication channel. If bulk mode is chosen, messages will be sent as an array. At every 1 second interval, the gateway will emit an array of the latest messages received. If single mode is chosen, messages will be sent individually. Options: BULK, SINGLE |
 | clientgateway.config.events_max_per_second | int | `2` | Defines how many events should be pushed per second, regardless of mode chosen (see above). |
 | clientgateway.config.mtls_enabled | bool | `true` | Sets mTLS flag |
-| clientgateway.config.next_public_parent_namespace | string | `"247.apps.qb.iam.ewc"` | Sets the parent namespace for UI route validation |
+| clientgateway.config.next_public_parent_namespace | string | `"ddhub.apps.energyweb.iam.ewc"` | Sets the parent namespace for UI route validation |
 | clientgateway.config.node_env | string | `"test"` | Sets the application running NODE environment. 'production' can be used for production mode. |
 | clientgateway.config.opentelemetry_enabled | bool | `false` | Sets to enable opentelemetry. |
 | clientgateway.config.opentelemetry_exporter | string | `""` | Sets opentelemetry exporter. enum ["ZIPKIN"] |
