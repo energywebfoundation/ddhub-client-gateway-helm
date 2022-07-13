@@ -41,12 +41,16 @@ spec:
             httpGet:
               path: /
               port: {{ .Values.clientgateway.ui.port }}
+            initialDelaySeconds: {{ .Values.clientgateway.ui.probes.livenessInitialDelay }}
+            periodSeconds: {{ .Values.clientgateway.ui.probes.livenessPeriodSeconds }}
           {{- end }}
           {{- if .Values.clientgateway.ui.probes.readiness }}
           readinessProbe:
             httpGet:
               path: /
               port: {{ .Values.clientgateway.ui.port }}
+            initialDelaySeconds: {{ .Values.clientgateway.ui.probes.readinessInitialDelay }}
+            periodSeconds: {{ .Values.clientgateway.ui.probes.readinessPeriodSeconds }}
           {{- end }}
       {{- with .Values.nodeSelector }}
       nodeSelector:
