@@ -1,6 +1,6 @@
 # ddhub-client-gateway-api
 
-![Version: 1.1.0](https://img.shields.io/badge/Version-1.1.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 0.0.1](https://img.shields.io/badge/AppVersion-0.0.1-informational?style=flat-square)
+![Version: 1.1.1](https://img.shields.io/badge/Version-1.1.1-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 0.0.1](https://img.shields.io/badge/AppVersion-0.0.1-informational?style=flat-square)
 
 A Helm chart for Kubernetes
 ### Introduction
@@ -44,10 +44,10 @@ This is a repository with helm chart for DDHub Client Gateway application. For m
 | clientgateway.config.websocket_reconnect_timeout | int | `10000` | Define the interval between receiving a connection error/close and attempting to reconnect, in milliseconds. |
 | clientgateway.config.websocket_url | string | `""` | Sets the URL of the WebSocket server the client should try to connect to. Required if WEBSOCKET is set to CLIENT. |
 | clientgateway.scheduler.appConfig.DID_REGISTRY_ADDRESS | string | `"0xc15d5a57a8eb0e1dcbe5d88b8f9a82017e5cc4af"` |  |
-| clientgateway.scheduler.enabled | bool | `false` |  |
+| clientgateway.scheduler.enabled | bool | `true` |  |
 | clientgateway.scheduler.image.pullPolicy | string | `"IfNotPresent"` |  |
 | clientgateway.scheduler.image.repository | string | `"aemocontainerregistry.azurecr.io/ddhub-client-gateway-scheduler"` |  |
-| clientgateway.scheduler.image.tag | string | `"canary"` |  |
+| clientgateway.scheduler.image.tag | string | `"latest"` |  |
 | clientgateway.scheduler.podAnnotations | object | `{}` |  |
 | clientgateway.scheduler.probes.liveness | bool | `true` |  |
 | clientgateway.scheduler.probes.readiness | bool | `true` |  |
@@ -59,7 +59,7 @@ This is a repository with helm chart for DDHub Client Gateway application. For m
 | clientgateway.ui.enabled | bool | `true` |  |
 | clientgateway.ui.image.pullPolicy | string | `"IfNotPresent"` |  |
 | clientgateway.ui.image.repository | string | `"aemocontainerregistry.azurecr.io/ddhub-client-gateway-frontend"` |  |
-| clientgateway.ui.image.tag | string | `"canary"` |  |
+| clientgateway.ui.image.tag | string | `"latest"` |  |
 | clientgateway.ui.podAnnotations | object | `{}` |  |
 | clientgateway.ui.port | int | `80` |  |
 | clientgateway.ui.probes.liveness | bool | `true` |  |
@@ -77,7 +77,7 @@ This is a repository with helm chart for DDHub Client Gateway application. For m
 | fullnameOverride | string | `"ddhub-client-gateway"` |  |
 | image.pullPolicy | string | `"IfNotPresent"` |  |
 | image.repository | string | `"aemocontainerregistry.azurecr.io/ddhub-client-gateway-backend"` |  |
-| image.tag | string | `"canary"` |  |
+| image.tag | string | `"latest"` |  |
 | imagePullSecrets | list | `[]` |  |
 | ingress.annotations."appgw.ingress.kubernetes.io/ssl-redirect" | string | `"true"` |  |
 | ingress.annotations."kubernetes.io/ingress.class" | string | `"azure/application-gateway"` |  |
@@ -118,7 +118,7 @@ This is a repository with helm chart for DDHub Client Gateway application. For m
 | pvc.storageClassName | string | `"default"` |  |
 | replicaCount | int | `1` |  |
 | resources | object | `{}` |  |
-| secretProviderClass.enable | bool | `false` |  |
+| secretProviderClass.enabled | bool | `false` |  |
 | secretProviderClass.name | string | `"my-provider"` |  |
 | securityContext | object | `{}` |  |
 | service.port | int | `80` |  |
