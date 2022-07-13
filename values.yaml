@@ -37,16 +37,16 @@ clientgateway:
     # -- Sets the Energy Web IAM events server URL, used to receive notification of approved DSB role claims.
     event_server_url: https://identitycache-staging.energyweb.org/
     # -- Sets the Energy Web IAM application namespace. DSB related roles, such as user and messagebroker should fall under this namespace.
-    parent_namespace: dsb.apps.energyweb.iam.ewc
+    parent_namespace: ddhub.apps.energyweb.iam.ewc
     # -- Sets the secret engine for storing DID private key. it can be Vault/AWS SSM/Azure KeyVault/GCP Secret Manager.
     secret_engine: vault
     # -- Sets the secret engine endpoint. the secret engine server URL.
     secret_engine_endpoint: http://vault.ddhub-dev.svc:8200
     # -- Sets the secret prefix in the secret engine.
     secret_prefix: "ddhub/"
-    # -- Sets the application environment.
+    # -- Sets the application running NODE environment. 'production' can be used for production mode.
     node_env: test
-    # -- Sets the database name / path for channel configurations.
+    # -- Sets the sqlite3 database name / path for channel configurations.
     db_name: 'local.db'
     # -- Sets to enable opentelemetry.
     opentelemetry_enabled: false
@@ -60,20 +60,21 @@ clientgateway:
     opentelemetry_otel_service_name: ""
     # -- Sets opentelemetry telemetry environment. default: "local"
     opentelemetry_otel_environment: ""
+    # -- Sets mTLS flag
+    mtls_enabled: true
   scheduler:
-    enabled: false
+    enabled: true
     image:
       repository: aemocontainerregistry.azurecr.io/ddhub-client-gateway-scheduler
       pullPolicy: IfNotPresent
       # Overrides the image tag whose default is the chart appVersion.
-      tag: canary
+      tag: latest
     podAnnotations: {}
     resources: {}
     probes: 
       liveness: true
       readiness: true
     appConfig:
-      DID_AUTH_URL: "http://ddhub-messagebroker-proxy-dev.ddhub-dev.svc"
       DID_REGISTRY_ADDRESS: "0xc15d5a57a8eb0e1dcbe5d88b8f9a82017e5cc4af"
   ui:
     enabled: true
@@ -82,7 +83,7 @@ clientgateway:
       repository: aemocontainerregistry.azurecr.io/ddhub-client-gateway-frontend
       pullPolicy: IfNotPresent
       # Overrides the image tag whose default is the chart appVersion.
-      tag: canary
+      tag: latest
     podAnnotations: {}
     resources: {}
     probes: 
@@ -104,7 +105,7 @@ image:
   repository: aemocontainerregistry.azurecr.io/ddhub-client-gateway-backend
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
-  tag: canary
+  tag: latest
 
 imagePullSecrets: []
 nameOverride: "ddhub-client-gateway"
@@ -118,6 +119,15 @@ serviceAccount:
   # The name of the service account to use.
   # If not set and create is true, a name is generated using the fullname template
   name: ""
+
+config: 
+  enabled: false
+  secretRefName: {}
+  configRefName: {}
+
+secretProviderClass: 
+  enabled: false
+  name: 'my-provider'
 
 podAnnotations: {}
 
@@ -213,6 +223,3 @@ existingClaim:
 probes: 
   liveness: true
   readiness: true
-
-ddhub-client-gateway-ui:
-  enabled: false

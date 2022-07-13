@@ -1,9 +1,10 @@
 # ddhub-client-gateway-api
 
-![Version: 1.0.2](https://img.shields.io/badge/Version-1.0.2-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 0.0.1](https://img.shields.io/badge/AppVersion-0.0.1-informational?style=flat-square)
+![Version: 1.1.1](https://img.shields.io/badge/Version-1.1.1-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 0.0.1](https://img.shields.io/badge/AppVersion-0.0.1-informational?style=flat-square)
 
 A Helm chart for Kubernetes
-## Introduction This is a repository with helm chart for DDHub Client Gateway application. For more information about DDHub Client Gateway please check the [repository](https://github.com/energywebfoundation/ddhub-client-gateway).
+### Introduction
+This is a repository with helm chart for DDHub Client Gateway application. For more information about DDHub Client Gateway please check the [repository](https://github.com/energywebfoundation/ddhub-client-gateway).
 
 ## Values
 
@@ -16,19 +17,20 @@ A Helm chart for Kubernetes
 | autoscaling.targetCPUUtilizationPercentage | int | `80` |  |
 | clientgateway.config.cache_server_url | string | `"https://identitycache-staging.energyweb.org/v1"` | Sets the Energy Web IAM cache server URL, used to cache identities (as it can be expensive to rely only on querying smart contract data). |
 | clientgateway.config.chain_id | int | `73799` | Sets the chain ID of the blockchain network. Options: 73799 (Volta), 246 (EWC) |
-| clientgateway.config.db_name | string | `"local.db"` | Sets the database name / path for channel configurations. |
+| clientgateway.config.db_name | string | `"local.db"` | Sets the sqlite3 database name / path for channel configurations. |
 | clientgateway.config.dsb_base_url | string | `"https://ddhub-demo.energyweb.org"` | The URL of the DSB Message Broker you want to connect to. Trailing / allowed. |
 | clientgateway.config.event_server_url | string | `"https://identitycache-staging.energyweb.org/"` | Sets the Energy Web IAM events server URL, used to receive notification of approved DSB role claims. |
 | clientgateway.config.events_emit_mode | string | `"BULK"` | Defines the format for messages pushed over a real-time communication channel. If bulk mode is chosen, messages will be sent as an array. At every 1 second interval, the gateway will emit an array of the latest messages received. If single mode is chosen, messages will be sent individually. Options: BULK, SINGLE |
 | clientgateway.config.events_max_per_second | int | `2` | Defines how many events should be pushed per second, regardless of mode chosen (see above). |
-| clientgateway.config.node_env | string | `"test"` | Sets the application environment. |
+| clientgateway.config.mtls_enabled | bool | `true` | Sets mTLS flag |
+| clientgateway.config.node_env | string | `"test"` | Sets the application running NODE environment. 'production' can be used for production mode. |
 | clientgateway.config.opentelemetry_enabled | bool | `false` | Sets to enable opentelemetry. |
 | clientgateway.config.opentelemetry_exporter | string | `""` | Sets opentelemetry exporter. enum ["ZIPKIN"] |
 | clientgateway.config.opentelemetry_otel_collector_url | string | `""` | Sets opentelemetry collector url. |
 | clientgateway.config.opentelemetry_otel_environment | string | `""` | Sets opentelemetry telemetry environment. default: "local" |
 | clientgateway.config.opentelemetry_otel_ignored_routes | string | `""` | Sets opentelemetry collector ignored routes. comma seperated, default: "health,api/v2/health" |
 | clientgateway.config.opentelemetry_otel_service_name | string | `""` | Sets opentelemetry telemetry service name. default: "ddhub-client-gateway" |
-| clientgateway.config.parent_namespace | string | `"dsb.apps.energyweb.iam.ewc"` | Sets the Energy Web IAM application namespace. DSB related roles, such as user and messagebroker should fall under this namespace. |
+| clientgateway.config.parent_namespace | string | `"ddhub.apps.energyweb.iam.ewc"` | Sets the Energy Web IAM application namespace. DSB related roles, such as user and messagebroker should fall under this namespace. |
 | clientgateway.config.port | int | `3333` | Define the port the gateway will run on. |
 | clientgateway.config.rpc_url | string | `"https://volta-rpc.energyweb.org/"` | Sets the blockchain RPC node to connect to retreive state from and submit transactions to. Should match the network given in CHAIN_ID. |
 | clientgateway.config.secret_engine | string | `"vault"` | Sets the secret engine for storing DID private key. it can be Vault/AWS SSM/Azure KeyVault/GCP Secret Manager. |
@@ -41,12 +43,11 @@ A Helm chart for Kubernetes
 | clientgateway.config.websocket_reconnect_max_retries | int | `10` | Define how many times the WebSocket client should attempt reconnection with the server upon receving connection error/close. |
 | clientgateway.config.websocket_reconnect_timeout | int | `10000` | Define the interval between receiving a connection error/close and attempting to reconnect, in milliseconds. |
 | clientgateway.config.websocket_url | string | `""` | Sets the URL of the WebSocket server the client should try to connect to. Required if WEBSOCKET is set to CLIENT. |
-| clientgateway.scheduler.appConfig.DID_AUTH_URL | string | `"http://ddhub-messagebroker-proxy-dev.ddhub-dev.svc"` |  |
 | clientgateway.scheduler.appConfig.DID_REGISTRY_ADDRESS | string | `"0xc15d5a57a8eb0e1dcbe5d88b8f9a82017e5cc4af"` |  |
-| clientgateway.scheduler.enabled | bool | `false` |  |
+| clientgateway.scheduler.enabled | bool | `true` |  |
 | clientgateway.scheduler.image.pullPolicy | string | `"IfNotPresent"` |  |
 | clientgateway.scheduler.image.repository | string | `"aemocontainerregistry.azurecr.io/ddhub-client-gateway-scheduler"` |  |
-| clientgateway.scheduler.image.tag | string | `"canary"` |  |
+| clientgateway.scheduler.image.tag | string | `"latest"` |  |
 | clientgateway.scheduler.podAnnotations | object | `{}` |  |
 | clientgateway.scheduler.probes.liveness | bool | `true` |  |
 | clientgateway.scheduler.probes.readiness | bool | `true` |  |
@@ -58,7 +59,7 @@ A Helm chart for Kubernetes
 | clientgateway.ui.enabled | bool | `true` |  |
 | clientgateway.ui.image.pullPolicy | string | `"IfNotPresent"` |  |
 | clientgateway.ui.image.repository | string | `"aemocontainerregistry.azurecr.io/ddhub-client-gateway-frontend"` |  |
-| clientgateway.ui.image.tag | string | `"canary"` |  |
+| clientgateway.ui.image.tag | string | `"latest"` |  |
 | clientgateway.ui.podAnnotations | object | `{}` |  |
 | clientgateway.ui.port | int | `80` |  |
 | clientgateway.ui.probes.liveness | bool | `true` |  |
@@ -67,14 +68,16 @@ A Helm chart for Kubernetes
 | clientgateway.ui.resources | object | `{}` |  |
 | clientgateway.ui.service.port | int | `80` |  |
 | clientgateway.ui.service.type | string | `"ClusterIP"` |  |
-| ddhub-client-gateway-ui.enabled | bool | `false` |  |
+| config.configRefName | object | `{}` |  |
+| config.enabled | bool | `false` |  |
+| config.secretRefName | object | `{}` |  |
 | existingClaim.claimName | string | `"my-claim"` |  |
 | existingClaim.enabled | bool | `false` |  |
 | existingClaim.mountPath | string | `"/mnt/claim"` |  |
 | fullnameOverride | string | `"ddhub-client-gateway"` |  |
 | image.pullPolicy | string | `"IfNotPresent"` |  |
 | image.repository | string | `"aemocontainerregistry.azurecr.io/ddhub-client-gateway-backend"` |  |
-| image.tag | string | `"canary"` |  |
+| image.tag | string | `"latest"` |  |
 | imagePullSecrets | list | `[]` |  |
 | ingress.annotations."appgw.ingress.kubernetes.io/ssl-redirect" | string | `"true"` |  |
 | ingress.annotations."kubernetes.io/ingress.class" | string | `"azure/application-gateway"` |  |
@@ -115,6 +118,8 @@ A Helm chart for Kubernetes
 | pvc.storageClassName | string | `"default"` |  |
 | replicaCount | int | `1` |  |
 | resources | object | `{}` |  |
+| secretProviderClass.enabled | bool | `false` |  |
+| secretProviderClass.name | string | `"my-provider"` |  |
 | securityContext | object | `{}` |  |
 | service.port | int | `80` |  |
 | service.type | string | `"ClusterIP"` |  |
