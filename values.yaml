@@ -63,12 +63,12 @@ clientgateway:
     # -- Sets mTLS flag
     mtls_enabled: true
   scheduler:
-    enabled: false
+    enabled: true
     image:
       repository: aemocontainerregistry.azurecr.io/ddhub-client-gateway-scheduler
       pullPolicy: IfNotPresent
       # Overrides the image tag whose default is the chart appVersion.
-      tag: canary
+      tag: latest
     podAnnotations: {}
     resources: {}
     probes: 
@@ -83,7 +83,7 @@ clientgateway:
       repository: aemocontainerregistry.azurecr.io/ddhub-client-gateway-frontend
       pullPolicy: IfNotPresent
       # Overrides the image tag whose default is the chart appVersion.
-      tag: canary
+      tag: latest
     podAnnotations: {}
     resources: {}
     probes: 
@@ -105,7 +105,7 @@ image:
   repository: aemocontainerregistry.azurecr.io/ddhub-client-gateway-backend
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
-  tag: canary
+  tag: latest
 
 imagePullSecrets: []
 nameOverride: "ddhub-client-gateway"
@@ -126,7 +126,7 @@ config:
   configRefName: {}
 
 secretProviderClass: 
-  enable: false
+  enabled: false
   name: 'my-provider'
 
 podAnnotations: {}
