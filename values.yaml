@@ -38,6 +38,8 @@ clientgateway:
     event_server_url: https://identitycache-staging.energyweb.org/
     # -- Sets the Energy Web IAM application namespace. DSB related roles, such as user and messagebroker should fall under this namespace.
     parent_namespace: ddhub.apps.energyweb.iam.ewc
+    # -- Sets the parent namespace for UI route validation
+    next_public_parent_namespace: ddhub.apps.energyweb.iam.ewc
     # -- Sets the secret engine for storing DID private key. it can be Vault/AWS SSM/Azure KeyVault/GCP Secret Manager.
     secret_engine: vault
     # -- Sets the secret engine endpoint. the secret engine server URL.
@@ -63,12 +65,12 @@ clientgateway:
     # -- Sets mTLS flag
     mtls_enabled: true
   scheduler:
-    enabled: false
+    enabled: true
     image:
       repository: aemocontainerregistry.azurecr.io/ddhub-client-gateway-scheduler
       pullPolicy: IfNotPresent
       # Overrides the image tag whose default is the chart appVersion.
-      tag: canary
+      tag: latest
     podAnnotations: {}
     resources: {}
     probes: 
@@ -83,7 +85,7 @@ clientgateway:
       repository: aemocontainerregistry.azurecr.io/ddhub-client-gateway-frontend
       pullPolicy: IfNotPresent
       # Overrides the image tag whose default is the chart appVersion.
-      tag: canary
+      tag: latest
     podAnnotations: {}
     resources: {}
     probes: 
@@ -105,7 +107,7 @@ image:
   repository: aemocontainerregistry.azurecr.io/ddhub-client-gateway-backend
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
-  tag: canary
+  tag: latest
 
 imagePullSecrets: []
 nameOverride: "ddhub-client-gateway"
@@ -126,7 +128,7 @@ config:
   configRefName: {}
 
 secretProviderClass: 
-  enable: false
+  enabled: false
   name: 'my-provider'
 
 podAnnotations: {}
