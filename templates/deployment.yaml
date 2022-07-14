@@ -27,6 +27,46 @@ spec:
       serviceAccountName: {{ include "ddhub-client-gateway-api.serviceAccountName" . }}
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      initContainers:
+        - name: {{ .Chart.Name }}-typeorm-migrations
+          resources:
+          {{- toYaml .Values.resources | nindent 12 }}
+          envFrom:
+            {{- if .Values.config.enabled }}
+            - secretRef:
+                name: {{ .Values.config.secretRefName }}
+                optional: false
+            - configMapRef:
+                name: {{ .Values.config.configRefName }}
+            {{- else }}
+            - configMapRef:
+                name: {{ include "ddhub-client-gateway-api.fullname" . }}-configmap
+            - secretRef:
+                name: {{ include "ddhub-client-gateway-api.fullname" . }}-secret
+            {{- end }}
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          command:
+            - "./node_modules/.bin/typeorm"
+            - "migrations:run"
+          {{- if or .Values.pvc.enabled .Values.existingClaim.enabled .Values.secretProviderClass.enabled }}
+          volumeMounts:
+            {{- if .Values.pvc.enabled }}
+            - mountPath: {{ .Values.pvc.mountPath | quote }}
+              name: volume
+            {{- end }}
+            {{- if .Values.existingClaim.enabled }}
+            - mountPath: {{ .Values.existingClaim.mountPath | quote }}
+              name: existingclaim
+            {{- end }}
+            {{- if .Values.secretProviderClass.enabled }}
+            - mountPath: "/mnt/secrets-store"
+              name: secrets-store-inline
+              readOnly: true
+            {{- end }}
+          {{- end }}
       containers:
         - name: {{ .Chart.Name }}
           securityContext:
