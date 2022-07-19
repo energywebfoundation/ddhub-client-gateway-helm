@@ -120,7 +120,7 @@ spec:
             readOnly: true
           {{- end }}
           {{- end }}
-      {{- if or .Values.pvc.enabled .Values.existingClaim.enabled }}
+      {{- if or .Values.pvc.enabled .Values.existingClaim.enabled .Values.secretProviderClass.enabled }}
       volumes:
         {{- if .Values.pvc.enabled }}
         - name: volume
