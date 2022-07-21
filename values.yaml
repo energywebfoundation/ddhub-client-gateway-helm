@@ -73,7 +73,11 @@ clientgateway:
     resources: {}
     probes: 
       liveness: true
+      livenessInitialDelay: 0
+      livenessPeriodSeconds: 10
       readiness: true
+      readinessInitialDelay: 0
+      readinessPeriodSeconds: 10
     appConfig:
       DID_REGISTRY_ADDRESS: "0xc15d5a57a8eb0e1dcbe5d88b8f9a82017e5cc4af"
   ui:
@@ -88,7 +92,11 @@ clientgateway:
     resources: {}
     probes: 
       liveness: true
+      livenessInitialDelay: 0
+      livenessPeriodSeconds: 10
       readiness: true
+      readinessInitialDelay: 0
+      readinessPeriodSeconds: 10
     port: 80
     autoscaling:
       enabled: false
@@ -222,4 +230,8 @@ existingClaim:
 
 probes: 
   liveness: true
+  livenessInitialDelay: 0
+  livenessPeriodSeconds: 10
   readiness: true
+  readinessInitialDelay: 60
+  readinessPeriodSeconds: 10

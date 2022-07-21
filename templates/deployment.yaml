@@ -97,12 +97,16 @@ spec:
             httpGet:
               path: /api/v2/health
               port: http
+            initialDelaySeconds: {{ .Values.probes.livenessInitialDelay }}
+            periodSeconds: {{ .Values.probes.livenessPeriodSeconds }}
           {{- end }}
           {{- if .Values.probes.readiness }}
           readinessProbe:
             httpGet:
               path: /api/v2/health
               port: http
+            initialDelaySeconds: {{ .Values.probes.readinessInitialDelay }}
+            periodSeconds: {{ .Values.probes.readinessPeriodSeconds }}
           {{- end }}
           {{- if or .Values.pvc.enabled .Values.existingClaim.enabled .Values.secretProviderClass.enabled }}
           volumeMounts:

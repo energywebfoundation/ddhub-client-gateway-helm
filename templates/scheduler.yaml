@@ -91,12 +91,16 @@ spec:
             exec: 
               command:
                 - ls
+            initialDelaySeconds: {{ .Values.clientgateway.scheduler.probes.livenessInitialDelay }}
+            periodSeconds: {{ .Values.clientgateway.scheduler.probes.livenessPeriodSeconds }}
           {{- end }}
           {{- if .Values.clientgateway.scheduler.probes.readiness }}
           readinessProbe:
             exec: 
               command:
                 - ls
+            initialDelaySeconds: {{ .Values.clientgateway.scheduler.probes.readinessInitialDelay }}
+            periodSeconds: {{ .Values.clientgateway.scheduler.probes.readinessPeriodSeconds }}
           {{- end }}
           {{- if or .Values.pvc.enabled .Values.existingClaim.enabled .Values.secretProviderClass.enabled }}
           volumeMounts:
