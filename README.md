@@ -1,6 +1,6 @@
 # ddhub-client-gateway-api
 
-![Version: 1.2.3](https://img.shields.io/badge/Version-1.2.3-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 0.0.1](https://img.shields.io/badge/AppVersion-0.0.1-informational?style=flat-square)
+![Version: 1.3.0](https://img.shields.io/badge/Version-1.3.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 0.0.1](https://img.shields.io/badge/AppVersion-0.0.1-informational?style=flat-square)
 
 A Helm chart for Kubernetes
 ### Introduction
@@ -50,7 +50,11 @@ This is a repository with helm chart for DDHub Client Gateway application. For m
 | clientgateway.scheduler.image.tag | string | `"latest"` |  |
 | clientgateway.scheduler.podAnnotations | object | `{}` |  |
 | clientgateway.scheduler.probes.liveness | bool | `true` |  |
+| clientgateway.scheduler.probes.livenessInitialDelay | int | `0` |  |
+| clientgateway.scheduler.probes.livenessPeriodSeconds | int | `10` |  |
 | clientgateway.scheduler.probes.readiness | bool | `true` |  |
+| clientgateway.scheduler.probes.readinessInitialDelay | int | `0` |  |
+| clientgateway.scheduler.probes.readinessPeriodSeconds | int | `10` |  |
 | clientgateway.scheduler.resources | object | `{}` |  |
 | clientgateway.ui.autoscaling.enabled | bool | `false` |  |
 | clientgateway.ui.autoscaling.maxReplicas | int | `100` |  |
@@ -63,7 +67,11 @@ This is a repository with helm chart for DDHub Client Gateway application. For m
 | clientgateway.ui.podAnnotations | object | `{}` |  |
 | clientgateway.ui.port | int | `80` |  |
 | clientgateway.ui.probes.liveness | bool | `true` |  |
+| clientgateway.ui.probes.livenessInitialDelay | int | `0` |  |
+| clientgateway.ui.probes.livenessPeriodSeconds | int | `10` |  |
 | clientgateway.ui.probes.readiness | bool | `true` |  |
+| clientgateway.ui.probes.readinessInitialDelay | int | `0` |  |
+| clientgateway.ui.probes.readinessPeriodSeconds | int | `10` |  |
 | clientgateway.ui.replicaCount | int | `1` |  |
 | clientgateway.ui.resources | object | `{}` |  |
 | clientgateway.ui.service.port | int | `80` |  |
@@ -110,7 +118,11 @@ This is a repository with helm chart for DDHub Client Gateway application. For m
 | podAnnotations | object | `{}` |  |
 | podSecurityContext | object | `{}` |  |
 | probes.liveness | bool | `true` |  |
+| probes.livenessInitialDelay | int | `0` |  |
+| probes.livenessPeriodSeconds | int | `10` |  |
 | probes.readiness | bool | `true` |  |
+| probes.readinessInitialDelay | int | `60` |  |
+| probes.readinessPeriodSeconds | int | `10` |  |
 | pvc.accessMode | string | `"ReadWriteOnce"` |  |
 | pvc.capacity | string | `"1Gi"` |  |
 | pvc.enabled | bool | `false` |  |
