@@ -48,8 +48,6 @@ clientgateway:
     secret_prefix: "ddhub/"
     # -- Sets the application running NODE environment. 'production' can be used for production mode.
     node_env: test
-    # -- Sets the sqlite3 database name / path for channel configurations.
-    db_name: 'local.db'
     # -- Sets to enable opentelemetry.
     opentelemetry_enabled: false
     # -- Sets opentelemetry collector url.
