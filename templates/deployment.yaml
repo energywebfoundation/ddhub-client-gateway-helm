@@ -31,6 +31,11 @@ spec:
         - name: {{ .Chart.Name }}-typeorm-migrations
           resources:
           {{- toYaml .Values.resources | nindent 12 }}
+          env:
+            {{- range $key, $value := .Values.clientgateway.envVars }}
+            - name: {{ $key }}
+              value: {{ $value | quote }}
+            {{- end }}
           envFrom:
             {{- if .Values.config.enabled }}
             - secretRef:
@@ -39,10 +44,10 @@ spec:
             - configMapRef:
                 name: {{ .Values.config.configRefName }}
             {{- else }}
-            - configMapRef:
-                name: {{ include "ddhub-client-gateway-api.fullname" . }}-configmap
+            {{- if (.Values.sealedSecret.enabled) }}
             - secretRef:
-                name: {{ include "ddhub-client-gateway-api.fullname" . }}-secret
+                name: {{ include "ddhub-client-gateway-api.fullname" . }}-sealedsecret
+            {{- end }}
             {{- end }}
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
@@ -75,10 +80,15 @@ spec:
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           ports:
             - name: http
-              containerPort: {{ .Values.clientgateway.config.port | default 3000 }}
+              containerPort: {{ .Values.clientgateway.envVars.PORT | default 3000 }}
               protocol: TCP
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
+          env:
+            {{- range $key, $value := .Values.clientgateway.envVars }}
+            - name: {{ $key }}
+              value: {{ $value | quote }}
+            {{- end }}
           envFrom:
             {{- if .Values.config.enabled }}
             - secretRef:
@@ -87,10 +97,10 @@ spec:
             - configMapRef:
                 name: {{ .Values.config.configRefName }}
             {{- else }}
-            - configMapRef:
-                name: {{ include "ddhub-client-gateway-api.fullname" . }}-configmap
+            {{- if (.Values.sealedSecret.enabled) }}
             - secretRef:
-                name: {{ include "ddhub-client-gateway-api.fullname" . }}-secret
+                name: {{ include "ddhub-client-gateway-api.fullname" . }}-sealedsecret
+            {{- end }}
             {{- end }}
           {{- if .Values.probes.liveness }}
           livenessProbe:
