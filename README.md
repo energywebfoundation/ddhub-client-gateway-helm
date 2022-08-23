@@ -1,6 +1,6 @@
 # ddhub-client-gateway-api
 
-![Version: 1.3.0](https://img.shields.io/badge/Version-1.3.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 0.0.1](https://img.shields.io/badge/AppVersion-0.0.1-informational?style=flat-square)
+![Version: 1.4.0](https://img.shields.io/badge/Version-1.4.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 0.0.1](https://img.shields.io/badge/AppVersion-0.0.1-informational?style=flat-square)
 
 A Helm chart for Kubernetes
 ### Introduction
@@ -130,6 +130,9 @@ This is a repository with helm chart for DDHub Client Gateway application. For m
 | pvc.storageClassName | string | `"default"` |  |
 | replicaCount | int | `1` |  |
 | resources | object | `{}` |  |
+| sealedSecret.annotations | object | `{}` |  |
+| sealedSecret.enabled | bool | `false` |  |
+| sealedSecret.encryptedData | object | `{}` |  |
 | secretProviderClass.enabled | bool | `false` |  |
 | secretProviderClass.name | string | `"my-provider"` |  |
 | securityContext | object | `{}` |  |
