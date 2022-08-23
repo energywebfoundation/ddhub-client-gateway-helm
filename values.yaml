@@ -216,6 +216,11 @@ tolerations: []
 
 affinity: {}
 
+sealedSecret:
+  enabled: false
+  annotations: {}
+  encryptedData: {}
+
 pvc:
   enabled: false
   storageClassName: default
