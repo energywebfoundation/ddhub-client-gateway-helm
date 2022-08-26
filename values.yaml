@@ -7,7 +7,7 @@ replicaCount: 1
 clientgateway:
   # -- Common environment variables
   envVars: {}
-  
+
   scheduler:
     enabled: true
     image:
