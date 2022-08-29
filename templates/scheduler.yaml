@@ -29,6 +29,15 @@ spec:
         - name: {{ .Chart.Name }}-typeorm-migrations
           resources:
           {{- toYaml .Values.resources | nindent 12 }}
+          env:
+            {{- range $key, $value := .Values.clientgateway.envVars }}
+            - name: {{ $key }}
+              value: {{ $value | quote }}
+            {{- end }}
+            {{- range $key, $value := .Values.clientgateway.scheduler.extraEnvVars }}
+            - name: {{ $key }}
+              value: {{ $value | quote }}
+            {{- end }}
           envFrom:
             {{- if .Values.config.enabled }}
             - secretRef:
@@ -37,10 +46,10 @@ spec:
             - configMapRef:
                 name: {{ .Values.config.configRefName }}
             {{- else }}
-            - configMapRef:
-                name: {{ include "ddhub-client-gateway-api.fullname" . }}-configmap
+            {{- if (.Values.sealedSecret.enabled) }}
             - secretRef:
-                name: {{ include "ddhub-client-gateway-api.fullname" . }}-secret
+                name: {{ include "ddhub-client-gateway-api.fullname" . }}-sealedsecret
+            {{- end }}
             {{- end }}
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
@@ -73,6 +82,15 @@ spec:
           imagePullPolicy: {{ .Values.clientgateway.scheduler.image.pullPolicy }}
           resources:
             {{- toYaml .Values.clientgateway.scheduler.resources | nindent 12 }}
+          env:
+            {{- range $key, $value := .Values.clientgateway.envVars }}
+            - name: {{ $key }}
+              value: {{ $value | quote }}
+            {{- end }}
+            {{- range $key, $value := .Values.clientgateway.scheduler.extraEnvVars }}
+            - name: {{ $key }}
+              value: {{ $value | quote }}
+            {{- end }}
           envFrom:
             {{- if .Values.config.enabled }}
             - secretRef:
@@ -81,10 +99,10 @@ spec:
             - configMapRef:
                 name: {{ .Values.config.configRefName }}
             {{- else }}
-            - configMapRef:
-                name: {{ include "ddhub-client-gateway-api.fullname" . }}-configmap
+            {{- if (.Values.sealedSecret.enabled) }}
             - secretRef:
-                name: {{ include "ddhub-client-gateway-api.fullname" . }}-secret
+                name: {{ include "ddhub-client-gateway-api.fullname" . }}-sealedsecret
+            {{- end }}
             {{- end }}
           {{- if .Values.clientgateway.scheduler.probes.liveness }}
           livenessProbe:

@@ -36,6 +36,28 @@ spec:
           imagePullPolicy: {{ .Values.clientgateway.ui.image.pullPolicy }}
           resources:
             {{- toYaml .Values.clientgateway.ui.resources | nindent 12 }}
+          env:
+            {{- range $key, $value := .Values.clientgateway.envVars }}
+            - name: {{ $key }}
+              value: {{ $value | quote }}
+            {{- end }}
+            {{- range $key, $value := .Values.clientgateway.ui.extraEnvVars }}
+            - name: {{ $key }}
+              value: {{ $value | quote }}
+            {{- end }}
+          envFrom:
+            {{- if .Values.config.enabled }}
+            - secretRef:
+                name: {{ .Values.config.secretRefName }}
+                optional: false
+            - configMapRef:
+                name: {{ .Values.config.configRefName }}
+            {{- else }}
+            {{- if (.Values.sealedSecret.enabled) }}
+            - secretRef:
+                name: {{ include "ddhub-client-gateway-api.fullname" . }}-sealedsecret
+            {{- end }}
+            {{- end }}
           {{- if .Values.clientgateway.ui.probes.liveness }}
           livenessProbe:
             httpGet:

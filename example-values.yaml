@@ -1,0 +1,254 @@
+# Default values for ddhub-client-gateway-api.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+replicaCount: 1
+
+clientgateway:
+  envVars:
+    # -- Define the port the gateway will run on.
+    PORT: 3333
+    # -- Select WebSocket mode depending on architecture (i.e. preference for inbound or outbound connections). By default, the gateway will run a WebSocket server on /events. However, it can also operate as a client with additional configuration (see below). Alternatively, this functionality can be turned off. Options: SERVER, CLIENT, NONE
+    WEBSOCKET: NONE
+    # -- Sets the URL of the WebSocket server the client should try to connect to. Required if WEBSOCKET is set to CLIENT.
+    WEBSOCKET_URL: ""
+    # -- Sets the protocol the WebSocket client should request access to. Acceptable protocols are defined by the WebSocket server, however, this can also be left undefined. Note that if WEBSOCKET is set to SERVER this variable is ignored. The server will only accept connection requests on the dsb-messages protocol.
+    WEBSOCKET_PROTOCOL: ""
+    # -- Define whether the WebSocket client should reconnect on connection error/close.
+    WEBSOCKET_RECONNECT: false
+    # -- Define the interval between receiving a connection error/close and attempting to reconnect, in milliseconds.
+    WEBSOCKET_RECONNECT_TIMEOUT: 10000
+    # -- Define how many times the WebSocket client should attempt reconnection with the server upon receving connection error/close.
+    WEBSOCKET_RECONNECT_MAX_RETRIES: 10
+    # -- Define the websocket message pooling timeout.
+    WEBSOCKET_POOLING_TIMEOUT: 834000
+    # -- Defines the format for messages pushed over a real-time communication channel. If bulk mode is chosen, messages will be sent as an array. At every 1 second interval, the gateway will emit an array of the latest messages received. If single mode is chosen, messages will be sent individually. Options: BULK, SINGLE
+    EVENTS_EMIT_MODE: BULK
+    # -- Defines how many events should be pushed per second, regardless of mode chosen (see above).
+    EVENTS_MAX_PER_SECOND: 2
+    # -- The URL of the DSB Message Broker you want to connect to. Trailing / allowed.
+    DSB_BASE_URL: https://ddhub-demo.energyweb.org
+    # -- Sets the chain ID of the blockchain network. Options: 73799 (Volta), 246 (EWC)
+    CHAIN_ID: 73799
+    # -- Sets the blockchain RPC node to connect to retreive state from and submit transactions to. Should match the network given in CHAIN_ID.
+    RPC_URL: https://volta-rpc.energyweb.org/
+    # -- Sets the Energy Web IAM cache server URL, used to cache identities (as it can be expensive to rely only on querying smart contract data).
+    CACHE_SERVER_URL: https://identitycache-staging.energyweb.org/v1
+    # -- Sets the Energy Web IAM events server URL, used to receive notification of approved DSB role claims.
+    EVENT_SERVER_URL: https://identitycache-staging.energyweb.org/
+    # -- Sets the Energy Web IAM application namespace. DSB related roles, such as user and messagebroker should fall under this namespace.
+    PARENT_NAMESPACE: ddhub.apps.energyweb.iam.ewc
+    # -- Sets the parent namespace for UI route validation
+    NEXT_PUBLIC_PARENT_NAMESPACE: ddhub.apps.energyweb.iam.ewc
+    # -- Sets the secret engine for storing DID private key. it can be Vault/AWS SSM/Azure KeyVault/GCP Secret Manager.
+    SECRET_ENGINE: vault
+    # -- Sets the secret engine endpoint. the secret engine server URL.
+    SECRET_ENGINE_ENDPOINT: http://vault.ddhub-dev.svc:8200
+    # -- Sets the secret prefix in the secret engine.
+    SECRET_PREFIX: "ddhub/"
+    # -- Sets the application running NODE environment. 'production' can be used for production mode.
+    NODE_ENV: test
+    # -- Sets to enable opentelemetry.
+    OPENTELEMETRY_ENABLED: false
+    # -- Sets opentelemetry collector url.
+    OPENTELEMETRY_OTEL_COLLECTOR_URL: ""
+    # -- Sets opentelemetry exporter. enum ["ZIPKIN"]
+    OPENTELEMETRY_EXPORTER: ""
+    # -- Sets opentelemetry collector ignored routes. comma seperated, default: "health,api/v2/health"
+    OPENTELEMETRY_OTEL_IGNORED_ROUTES: ""
+    # -- Sets opentelemetry telemetry service name. default: "ddhub-client-gateway"
+    OPENTELEMETRY_OTEL_SERVICE_NAME: ""
+    # -- Sets opentelemetry telemetry environment. default: "local"
+    OPENTELEMETRY_OTEL_ENVIRONMENT: ""
+    # -- Sets mTLS flag
+    MTLS_ENABLED: true
+  scheduler:
+    enabled: true
+    image:
+      repository: aemocontainerregistry.azurecr.io/ddhub-client-gateway-scheduler
+      pullPolicy: IfNotPresent
+      # Overrides the image tag whose default is the chart appVersion.
+      tag: latest
+    podAnnotations: {}
+    resources: {}
+    probes: 
+      liveness: true
+      livenessInitialDelay: 0
+      livenessPeriodSeconds: 10
+      readiness: true
+      readinessInitialDelay: 0
+      readinessPeriodSeconds: 10
+    extraEnvVars:
+      DID_REGISTRY_ADDRESS: "0xc15d5a57a8eb0e1dcbe5d88b8f9a82017e5cc4af"
+  ui:
+    enabled: true
+    replicaCount: 1
+    image:
+      repository: aemocontainerregistry.azurecr.io/ddhub-client-gateway-frontend
+      pullPolicy: IfNotPresent
+      # Overrides the image tag whose default is the chart appVersion.
+      tag: 0.11.0
+    podAnnotations: {}
+    resources: {}
+    probes: 
+      liveness: true
+      livenessInitialDelay: 0
+      livenessPeriodSeconds: 10
+      readiness: true
+      readinessInitialDelay: 0
+      readinessPeriodSeconds: 10
+    port: 80
+    autoscaling:
+      enabled: false
+      minReplicas: 1
+      maxReplicas: 100
+      targetCPUUtilizationPercentage: 80
+      # targetMemoryUtilizationPercentage: 80
+    service:
+      type: ClusterIP
+      port: 80
+    extraEnvVars:
+      ENV1: value1
+
+image:
+  # repository: 098061033856.dkr.ecr.us-east-1.amazonaws.com/ew-dos-dsb-ecr
+  repository: aemocontainerregistry.azurecr.io/ddhub-client-gateway-backend
+  pullPolicy: IfNotPresent
+  # Overrides the image tag whose default is the chart appVersion.
+  tag: 0.11.0
+
+imagePullSecrets: []
+nameOverride: "ddhub-client-gateway"
+fullnameOverride: "ddhub-client-gateway"
+
+serviceAccount:
+  # Specifies whether a service account should be created
+  create: true
+  # Annotations to add to the service account
+  annotations: {}
+  # The name of the service account to use.
+  # If not set and create is true, a name is generated using the fullname template
+  name: ""
+
+config: 
+  enabled: false
+  secretRefName: {}
+  configRefName: {}
+
+secretProviderClass: 
+  enabled: false
+  name: 'my-provider'
+
+podAnnotations: {}
+
+podSecurityContext: {}
+  # fsGroup: 2000
+
+securityContext: {}
+  # capabilities:
+  #   drop:
+  #   - ALL
+  # readOnlyRootFilesystem: true
+  # runAsNonRoot: true
+  # runAsUser: 1000
+
+service:
+  type: ClusterIP
+  port: 80
+
+ingress:
+  enabled: false
+  annotations: {kubernetes.io/ingress.class: azure/application-gateway, appgw.ingress.kubernetes.io/ssl-redirect: "true"}
+    # kubernetes.io/tls-acme: "true"
+  hosts:
+    - host: ddhub-gateway-test.energyweb.org
+      paths:
+      - path: /docs
+        pathType: Prefix
+        backend:
+          serviceName: ddhub-client-gateway
+          servicePort: 80
+      - path: /api
+        pathType: Prefix
+        backend:
+          serviceName: ddhub-client-gateway
+          servicePort: 80
+      - path: /docs-json
+        pathType: Prefix
+        backend:
+          serviceName: ddhub-client-gateway
+          servicePort: 80
+      - path: /events
+        pathType: Prefix
+        backend:
+          serviceName: ddhub-client-gateway
+          servicePort: 80
+      - path: /
+        pathType: Prefix
+        backend:
+          serviceName: ddhub-client-gateway-ui
+          servicePort: 80
+  tls:
+    - secretName: ddhub-tls-secret
+      hosts:
+        - ddhub-gateway-test.energyweb.org
+
+resources: {}
+  # We usually recommend not to specify default resources and to leave this as a conscious
+  # choice for the user. This also increases chances charts run on environments with little
+  # resources, such as Minikube. If you do want to specify resources, uncomment the following
+  # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+  # limits:
+  #   cpu: 100m
+  #   memory: 128Mi
+  # requests:
+  #   cpu: 100m
+  #   memory: 128Mi
+
+autoscaling:
+  enabled: false
+  minReplicas: 1
+  maxReplicas: 100
+  targetCPUUtilizationPercentage: 80
+  # targetMemoryUtilizationPercentage: 80
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}
+
+sealedSecret:
+  enabled: true
+  annotations: {}
+  encryptedData:
+    # -- Sets the blockchain RPC node to connect to retreive state from and submit transactions to. Should match the network given in CHAIN_ID.
+    RPC_URL: AgCJhH37GM4+B+ZVVgCwulrWIftwaACEN1FH5lPupaW+ir2Kr4qNWOMbcKH0WIdJboU5I3XTge4nkFkezLC2+Rma0u3tBEbN+kdW0dsP3KNx7m9Bw0I7c3oDIi6wumZuEa3ti95IoOE7cO5HdAYqjLDe5cFttk7POC9nkBkjW+7Zi2J4lAcOpgYyzi5ePv/mpEZhf+OdRCKYJQEJdn2atwuxr8UhVPRrtTrY+Ym/o5EYqWWCAK2TTs0+knQLA1fC2UhNLQnwbGfhnUcnq+j33cqrNpghiDgU2laMPujFv48TckrB0R9qViY0diz+dU32d7nodHaYxaTAly6APJOwifgFLDYZVaJCq5GkRqF6cQRC0gG/GFFchNMRrxEA1P+uqdRlSzXP6tRL7BHPBugdfEJMsdiids3EQR1DILf+7ZndMvJUFX9CEIZHiNYME18iUqRFBeLaPFpNaSn7IpdDDX94B798mbZ9gaFfJLchUe+uwJEv7zA9XHOOq2y1nrMBMyA2xPndNAppiHX8Lq8r6+WPmRapubs8UI5+lZ7zFOdmMUczui8UC24T2JVmOx+4bLdhL7X/8zeToW0O+6pv0fkFYGzouIBOWGbqS6bCDM0XQHbh3TlhoGr2kMCs5zz5FPtlHP8OZ2oBa1de/9kwPkOvi5Br85WvD0PSWZCSRL1bMxxJKmVSbp2JtulIX7PqugAJFifoEocjFSTDkbpOni0iKJEpkI6KN90nne8c1NnxEq/c7hZr6wBCky4DfsC8t668lRvQ
+
+pvc:
+  enabled: false
+  storageClassName: default
+  accessMode: ReadWriteOnce
+  capacity: 1Gi
+  mountPath: /mnt/azure
+
+existingClaim:
+  enabled: false
+  claimName: my-claim
+  mountPath: /mnt/claim
+
+probes: 
+  liveness: true
+  livenessInitialDelay: 0
+  livenessPeriodSeconds: 10
+  readiness: true
+  readinessInitialDelay: 60
+  readinessPeriodSeconds: 10
+
+# -- Extra lables to be added to all resources
+extraLabels:
+  energyweb.org/project: "ddhub"
+  energyweb.org/app: "ddhub-client-gateway"
+  energyweb.org/repository: "ddhub-client-gateway-helm"
+  energyweb.org/createdBy: "MichalZiobro"
+  energyweb.org/jira: "DOI-2108"

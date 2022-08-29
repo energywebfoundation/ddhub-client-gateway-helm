@@ -40,6 +40,9 @@ helm.sh/chart: {{ include "ddhub-client-gateway-api.chart" . }}
 app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
 {{- end }}
 app.kubernetes.io/managed-by: {{ .Release.Service }}
+{{- with .Values.extraLabels }}
+{{ toYaml . }}
+{{- end }}
 {{- end }}
 
 {{/*
@@ -60,6 +63,9 @@ helm.sh/chart: {{ include "ddhub-client-gateway-api.chart" . }}
 app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
 {{- end }}
 app.kubernetes.io/managed-by: {{ .Release.Service }}
+{{- with .Values.extraLabels }}
+{{ toYaml . }}
+{{- end }}
 {{- end }}
 
 {{/*
@@ -80,6 +86,9 @@ helm.sh/chart: {{ include "ddhub-client-gateway-api.chart" . }}
 app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
 {{- end }}
 app.kubernetes.io/managed-by: {{ .Release.Service }}
+{{- with .Values.extraLabels }}
+{{ toYaml . }}
+{{- end }}
 {{- end }}
 
 {{/*
