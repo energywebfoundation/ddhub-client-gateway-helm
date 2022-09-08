@@ -7,6 +7,8 @@ replicaCount: 1
 clientgateway:
   # -- Common environment variables
   envVars: {}
+  # -- Pass additional ConfigMaps or Secrets to env vars
+  extraEnvFrom: []
 
   scheduler:
     enabled: true
@@ -76,10 +78,6 @@ serviceAccount:
   # If not set and create is true, a name is generated using the fullname template
   name: ""
 
-config: 
-  enabled: false
-  secretRefName: {}
-  configRefName: {}
 
 secretProviderClass: 
   enabled: false

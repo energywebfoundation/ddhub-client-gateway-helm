@@ -39,13 +39,9 @@ spec:
               value: {{ $value | quote }}
             {{- end }}
           envFrom:
-            {{- if .Values.config.enabled }}
-            - secretRef:
-                name: {{ .Values.config.secretRefName }}
-                optional: false
-            - configMapRef:
-                name: {{ .Values.config.configRefName }}
-            {{- else }}
+            {{- with .Values.clientgateway.extraEnvFrom }}
+            {{- toYaml . | nindent 12 }}
+            {{- end }}
             {{- if (.Values.sealedSecret.enabled) }}
             - secretRef:
                 name: {{ include "ddhub-client-gateway-api.fullname" . }}-sealedsecret
@@ -92,17 +88,12 @@ spec:
               value: {{ $value | quote }}
             {{- end }}
           envFrom:
-            {{- if .Values.config.enabled }}
-            - secretRef:
-                name: {{ .Values.config.secretRefName }}
-                optional: false
-            - configMapRef:
-                name: {{ .Values.config.configRefName }}
-            {{- else }}
+            {{- with .Values.clientgateway.extraEnvFrom }}
+            {{- toYaml . | nindent 12 }}
+            {{- end }}
             {{- if (.Values.sealedSecret.enabled) }}
             - secretRef:
                 name: {{ include "ddhub-client-gateway-api.fullname" . }}-sealedsecret
-            {{- end }}
             {{- end }}
           {{- if .Values.clientgateway.scheduler.probes.liveness }}
           livenessProbe:
@@ -134,7 +125,6 @@ spec:
           - mountPath: "/mnt/secrets-store"
             name: secrets-store-inline
             readOnly: true
-          {{- end }}
           {{- end }}
       {{- if or .Values.pvc.enabled .Values.existingClaim.enabled .Values.secretProviderClass.enabled }}
       volumes:
