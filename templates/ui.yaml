@@ -46,17 +46,12 @@ spec:
               value: {{ $value | quote }}
             {{- end }}
           envFrom:
-            {{- if .Values.config.enabled }}
-            - secretRef:
-                name: {{ .Values.config.secretRefName }}
-                optional: false
-            - configMapRef:
-                name: {{ .Values.config.configRefName }}
-            {{- else }}
+            {{- with .Values.clientgateway.extraEnvFrom }}
+            {{- toYaml . | nindent 12 }}
+            {{- end }}
             {{- if (.Values.sealedSecret.enabled) }}
             - secretRef:
                 name: {{ include "ddhub-client-gateway-api.fullname" . }}-sealedsecret
-            {{- end }}
             {{- end }}
           {{- if .Values.clientgateway.ui.probes.liveness }}
           livenessProbe:

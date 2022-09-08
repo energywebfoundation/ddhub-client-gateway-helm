@@ -25,25 +25,21 @@ clientgateway:
     # -- Defines the format for messages pushed over a real-time communication channel. If bulk mode is chosen, messages will be sent as an array. At every 1 second interval, the gateway will emit an array of the latest messages received. If single mode is chosen, messages will be sent individually. Options: BULK, SINGLE
     EVENTS_EMIT_MODE: BULK
     # -- Defines how many events should be pushed per second, regardless of mode chosen (see above).
-    EVENTS_MAX_PER_SECOND: 2
+    EVENTS_MAX_PER_SECOND: 50
     # -- The URL of the DSB Message Broker you want to connect to. Trailing / allowed.
-    DSB_BASE_URL: https://ddhub-demo.energyweb.org
+    DSB_BASE_URL: https://ddhub-dev.energyweb.org/
     # -- Sets the chain ID of the blockchain network. Options: 73799 (Volta), 246 (EWC)
     CHAIN_ID: 73799
-    # -- Sets the blockchain RPC node to connect to retreive state from and submit transactions to. Should match the network given in CHAIN_ID.
-    RPC_URL: https://volta-rpc.energyweb.org/
     # -- Sets the Energy Web IAM cache server URL, used to cache identities (as it can be expensive to rely only on querying smart contract data).
-    CACHE_SERVER_URL: https://identitycache-staging.energyweb.org/v1
+    CACHE_SERVER_URL: https://identitycache-dev.energyweb.org/v1
     # -- Sets the Energy Web IAM events server URL, used to receive notification of approved DSB role claims.
-    EVENT_SERVER_URL: https://identitycache-staging.energyweb.org/
+    EVENT_SERVER_URL: https://identitycache-dev.energyweb.org
     # -- Sets the Energy Web IAM application namespace. DSB related roles, such as user and messagebroker should fall under this namespace.
     PARENT_NAMESPACE: ddhub.apps.energyweb.iam.ewc
-    # -- Sets the parent namespace for UI route validation
-    NEXT_PUBLIC_PARENT_NAMESPACE: ddhub.apps.energyweb.iam.ewc
     # -- Sets the secret engine for storing DID private key. it can be Vault/AWS SSM/Azure KeyVault/GCP Secret Manager.
-    SECRET_ENGINE: vault
+    SECRETS_ENGINE: vault
     # -- Sets the secret engine endpoint. the secret engine server URL.
-    SECRET_ENGINE_ENDPOINT: http://vault.ddhub-dev.svc:8200
+    VAULT_ENDPOINT: http://dle-ddhub-vault.consortia-relaychain.svc:8200
     # -- Sets the secret prefix in the secret engine.
     SECRET_PREFIX: "ddhub/"
     # -- Sets the application running NODE environment. 'production' can be used for production mode.
@@ -61,7 +57,16 @@ clientgateway:
     # -- Sets opentelemetry telemetry environment. default: "local"
     OPENTELEMETRY_OTEL_ENVIRONMENT: ""
     # -- Sets mTLS flag
-    MTLS_ENABLED: true
+    MTLS_ENABLED: false
+
+  extraEnvFrom:
+    - secretRef:
+        name: "secret-name"
+        optional: true
+    - configMapRef:
+        name: "configmap-name"
+        optional: true
+
   scheduler:
     enabled: true
     image:
@@ -130,10 +135,6 @@ serviceAccount:
   # If not set and create is true, a name is generated using the fullname template
   name: ""
 
-config: 
-  enabled: false
-  secretRefName: {}
-  configRefName: {}
 
 secretProviderClass: 
   enabled: false

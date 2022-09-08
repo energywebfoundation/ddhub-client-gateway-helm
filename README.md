@@ -1,6 +1,6 @@
 # ddhub-client-gateway-api
 
-![Version: 2.0.0](https://img.shields.io/badge/Version-2.0.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 0.12.0](https://img.shields.io/badge/AppVersion-0.12.0-informational?style=flat-square)
+![Version: 2.0.1](https://img.shields.io/badge/Version-2.0.1-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 0.12.0](https://img.shields.io/badge/AppVersion-0.12.0-informational?style=flat-square)
 
 A Helm chart for Kubernetes
 ### Introduction
@@ -16,6 +16,7 @@ This is a repository with helm chart for DDHub Client Gateway application. For m
 | autoscaling.minReplicas | int | `1` |  |
 | autoscaling.targetCPUUtilizationPercentage | int | `80` |  |
 | clientgateway.envVars | object | `{}` | Common environment variables |
+| clientgateway.extraEnvFrom | list | `[]` | Pass additional ConfigMaps or Secrets to env vars |
 | clientgateway.scheduler.enabled | bool | `true` |  |
 | clientgateway.scheduler.extraEnvVars | object | `{}` | Additional environment variables for scheduler |
 | clientgateway.scheduler.image.pullPolicy | string | `"IfNotPresent"` |  |
@@ -50,9 +51,6 @@ This is a repository with helm chart for DDHub Client Gateway application. For m
 | clientgateway.ui.resources | object | `{}` |  |
 | clientgateway.ui.service.port | int | `80` |  |
 | clientgateway.ui.service.type | string | `"ClusterIP"` |  |
-| config.configRefName | object | `{}` |  |
-| config.enabled | bool | `false` |  |
-| config.secretRefName | object | `{}` |  |
 | existingClaim.claimName | string | `"my-claim"` |  |
 | existingClaim.enabled | bool | `false` |  |
 | existingClaim.mountPath | string | `"/mnt/claim"` |  |
