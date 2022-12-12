@@ -49,7 +49,9 @@ spec:
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           command:
-            - {{ .Values.initContainerCommand.dbmigration | quote }}
+            {{- with .Values.initContainerCommand }}
+            {{- toYaml . | nindent 12 }}
+            {{- end }}
             # - "./node_modules/.bin/typeorm"
             # - "migrations:run"
           {{- if or .Values.pvc.enabled .Values.existingClaim.enabled .Values.secretProviderClass.enabled }}

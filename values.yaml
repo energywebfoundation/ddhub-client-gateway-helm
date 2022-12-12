@@ -166,7 +166,8 @@ probes:
   readinessPeriodSeconds: 10
 
 initContainerCommand:
-  dbmigration: ./node_modules/.bin/typeorm migrations:run
+  - "./node_modules/.bin/typeorm" 
+  - "migrations:run"
 
 # -- Extra lables to be added to all resources
 extraLabels: {}
