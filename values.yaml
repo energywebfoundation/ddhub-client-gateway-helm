@@ -19,7 +19,7 @@ clientgateway:
       tag: 1.1.1
     podAnnotations: {}
     resources: {}
-    probes: 
+    probes:
       liveness: true
       livenessInitialDelay: 0
       livenessPeriodSeconds: 10
@@ -28,7 +28,7 @@ clientgateway:
       readinessPeriodSeconds: 10
     # -- Additional environment variables for scheduler
     extraEnvVars: {}
-  
+
   ui:
     enabled: true
     replicaCount: 1
@@ -39,7 +39,7 @@ clientgateway:
       tag: 1.1.1
     podAnnotations: {}
     resources: {}
-    probes: 
+    probes:
       liveness: true
       livenessInitialDelay: 0
       livenessPeriodSeconds: 10
@@ -79,7 +79,7 @@ serviceAccount:
   name: ""
 
 
-secretProviderClass: 
+secretProviderClass:
   enabled: false
   name: 'my-provider'
 
@@ -144,7 +144,7 @@ sealedSecret:
   annotations: {}
   encryptedData: {}
 
-    
+
 pvc:
   enabled: false
   storageClassName: default
@@ -157,13 +157,16 @@ existingClaim:
   claimName: my-claim
   mountPath: /mnt/claim
 
-probes: 
+probes:
   liveness: true
   livenessInitialDelay: 0
   livenessPeriodSeconds: 10
   readiness: true
   readinessInitialDelay: 60
   readinessPeriodSeconds: 10
+
+initContainerCommand:
+  dbmigration: ./node_modules/.bin/typeorm migrations:run
 
 # -- Extra lables to be added to all resources
 extraLabels: {}

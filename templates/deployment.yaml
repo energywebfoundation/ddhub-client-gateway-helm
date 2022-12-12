@@ -49,8 +49,9 @@ spec:
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           command:
-            - "./node_modules/.bin/typeorm"
-            - "migrations:run"
+            - {{ .Values.initContainerCommand.dbmigration | quote }}
+            # - "./node_modules/.bin/typeorm"
+            # - "migrations:run"
           {{- if or .Values.pvc.enabled .Values.existingClaim.enabled .Values.secretProviderClass.enabled }}
           volumeMounts:
             {{- if .Values.pvc.enabled }}
