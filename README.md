@@ -66,7 +66,8 @@ This is a repository with helm chart for DDHub Client Gateway application. For m
 | ingress.hosts[0].paths[0].path | string | `"/"` |  |
 | ingress.hosts[0].paths[0].pathType | string | `"ImplementationSpecific"` |  |
 | ingress.tls | list | `[]` |  |
-| initContainerCommand.dbmigration | string | `"./node_modules/.bin/typeorm migrations:run"` |  |
+| initContainerCommand[0] | string | `"./node_modules/.bin/typeorm"` |  |
+| initContainerCommand[1] | string | `"migrations:run"` |  |
 | nameOverride | string | `"ddhub-client-gateway"` |  |
 | nodeSelector | object | `{}` |  |
 | podAnnotations | object | `{}` |  |
@@ -74,6 +75,7 @@ This is a repository with helm chart for DDHub Client Gateway application. For m
 | probes.liveness | bool | `true` |  |
 | probes.livenessInitialDelay | int | `0` |  |
 | probes.livenessPeriodSeconds | int | `10` |  |
+| probes.path | string | `"/api/v2/health"` |  |
 | probes.readiness | bool | `true` |  |
 | probes.readinessInitialDelay | int | `60` |  |
 | probes.readinessPeriodSeconds | int | `10` |  |
