@@ -49,8 +49,11 @@ spec:
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           command:
-            - "./node_modules/.bin/typeorm"
-            - "migrations:run"
+            {{- with .Values.initContainerCommand }}
+            {{- toYaml . | nindent 12 }}
+            {{- end }}
+            # - "./node_modules/.bin/typeorm"
+            # - "migrations:run"
           {{- if or .Values.pvc.enabled .Values.existingClaim.enabled .Values.secretProviderClass.enabled }}
           volumeMounts:
             {{- if .Values.pvc.enabled }}
@@ -95,7 +98,7 @@ spec:
           {{- if .Values.probes.liveness }}
           livenessProbe:
             httpGet:
-              path: /api/v2/health
+              path: {{ .Values.probes.path }}
               port: http
             initialDelaySeconds: {{ .Values.probes.livenessInitialDelay }}
             periodSeconds: {{ .Values.probes.livenessPeriodSeconds }}
@@ -103,7 +106,7 @@ spec:
           {{- if .Values.probes.readiness }}
           readinessProbe:
             httpGet:
-              path: /api/v2/health
+              path: {{ .Values.probes.path }}
               port: http
             initialDelaySeconds: {{ .Values.probes.readinessInitialDelay }}
             periodSeconds: {{ .Values.probes.readinessPeriodSeconds }}

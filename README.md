@@ -1,6 +1,6 @@
 # ddhub-client-gateway-api
 
-![Version: 2.0.2](https://img.shields.io/badge/Version-2.0.2-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.1.1](https://img.shields.io/badge/AppVersion-1.1.1-informational?style=flat-square)
+![Version: 2.0.3](https://img.shields.io/badge/Version-2.0.3-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.1.1](https://img.shields.io/badge/AppVersion-1.1.1-informational?style=flat-square)
 
 A Helm chart for Kubernetes
 ### Introduction
@@ -21,7 +21,7 @@ This is a repository with helm chart for DDHub Client Gateway application. For m
 | clientgateway.scheduler.extraEnvVars | object | `{}` | Additional environment variables for scheduler |
 | clientgateway.scheduler.image.pullPolicy | string | `"IfNotPresent"` |  |
 | clientgateway.scheduler.image.repository | string | `"aemocontainerregistry.azurecr.io/ddhub-client-gateway-scheduler"` |  |
-| clientgateway.scheduler.image.tag | string | `"0.12.0"` |  |
+| clientgateway.scheduler.image.tag | string | `"1.1.1"` |  |
 | clientgateway.scheduler.podAnnotations | object | `{}` |  |
 | clientgateway.scheduler.probes.liveness | bool | `true` |  |
 | clientgateway.scheduler.probes.livenessInitialDelay | int | `0` |  |
@@ -38,7 +38,7 @@ This is a repository with helm chart for DDHub Client Gateway application. For m
 | clientgateway.ui.extraEnvVars | object | `{}` | Additional environment variables for ui |
 | clientgateway.ui.image.pullPolicy | string | `"IfNotPresent"` |  |
 | clientgateway.ui.image.repository | string | `"aemocontainerregistry.azurecr.io/ddhub-client-gateway-frontend"` |  |
-| clientgateway.ui.image.tag | string | `"0.12.0"` |  |
+| clientgateway.ui.image.tag | string | `"1.1.1"` |  |
 | clientgateway.ui.podAnnotations | object | `{}` |  |
 | clientgateway.ui.port | int | `80` |  |
 | clientgateway.ui.probes.liveness | bool | `true` |  |
@@ -58,7 +58,7 @@ This is a repository with helm chart for DDHub Client Gateway application. For m
 | fullnameOverride | string | `"ddhub-client-gateway"` |  |
 | image.pullPolicy | string | `"IfNotPresent"` |  |
 | image.repository | string | `"aemocontainerregistry.azurecr.io/ddhub-client-gateway-backend"` |  |
-| image.tag | string | `"0.12.0"` |  |
+| image.tag | string | `"1.1.1"` |  |
 | imagePullSecrets | list | `[]` |  |
 | ingress.annotations | object | `{}` |  |
 | ingress.enabled | bool | `false` |  |
@@ -66,6 +66,8 @@ This is a repository with helm chart for DDHub Client Gateway application. For m
 | ingress.hosts[0].paths[0].path | string | `"/"` |  |
 | ingress.hosts[0].paths[0].pathType | string | `"ImplementationSpecific"` |  |
 | ingress.tls | list | `[]` |  |
+| initContainerCommand[0] | string | `"./node_modules/.bin/typeorm"` |  |
+| initContainerCommand[1] | string | `"migrations:run"` |  |
 | nameOverride | string | `"ddhub-client-gateway"` |  |
 | nodeSelector | object | `{}` |  |
 | podAnnotations | object | `{}` |  |
@@ -73,6 +75,7 @@ This is a repository with helm chart for DDHub Client Gateway application. For m
 | probes.liveness | bool | `true` |  |
 | probes.livenessInitialDelay | int | `0` |  |
 | probes.livenessPeriodSeconds | int | `10` |  |
+| probes.path | string | `"/api/v2/health"` |  |
 | probes.readiness | bool | `true` |  |
 | probes.readinessInitialDelay | int | `60` |  |
 | probes.readinessPeriodSeconds | int | `10` |  |
