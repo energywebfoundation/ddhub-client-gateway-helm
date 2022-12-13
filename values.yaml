@@ -158,6 +158,7 @@ existingClaim:
   mountPath: /mnt/claim
 
 probes:
+  path: "/api/v2/health"
   liveness: true
   livenessInitialDelay: 0
   livenessPeriodSeconds: 10
