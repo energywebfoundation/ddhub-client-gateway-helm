@@ -51,6 +51,9 @@ Selector labels
 {{- define "ddhub-client-gateway-api.selectorLabels" -}}
 app.kubernetes.io/name: {{ include "ddhub-client-gateway-api.name" . }}
 app.kubernetes.io/instance: {{ .Release.Name }}
+{{- with .Values.extraLabels }}
+{{ toYaml . }}
+{{- end }}
 {{- end }}
 
 {{/*
@@ -74,6 +77,9 @@ Selector scheduler labels
 {{- define "ddhub-client-gateway-api.scheduler.selectorLabels" -}}
 app.kubernetes.io/name: {{ include "ddhub-client-gateway-api.name" . }}-scheduler
 app.kubernetes.io/instance: {{ .Release.Name }}
+{{- with .Values.extraLabels }}
+{{ toYaml . }}
+{{- end }}
 {{- end }}
 
 {{/*
