@@ -47,7 +47,7 @@ jobs:
             helm package .
             CHART_NAME=$( grep 'name:' Chart.yaml | tail -n 1)
             CHART_NAME=${CHART_NAME//*name: /}
-            az acr helm push -n ${{ secrets.HELM_REGISTRY }} ${CHART_NAME}-1.3.0-xlabels.tgz
+            az acr helm push -n ${{ secrets.HELM_REGISTRY }} ${CHART_NAME}-1.3.0-extralabels.tgz
 
       # - name: Create a GitHub release
       #   uses: ncipollo/release-action@v1
