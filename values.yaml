@@ -235,3 +235,5 @@ probes:
   readiness: true
   readinessInitialDelay: 60
   readinessPeriodSeconds: 10
+
+extraLabels: {}
