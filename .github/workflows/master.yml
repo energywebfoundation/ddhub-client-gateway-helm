@@ -39,7 +39,7 @@ jobs:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
 
       - name: Package && Azure CLI deploy to ACR
-        uses: azure/CLI@v1
+        uses: azure/CLI@v2
         with:
           azcliversion: latest
           inlineScript: |
@@ -48,7 +48,7 @@ jobs:
             CHART_NAME=$( grep 'name:' Chart.yaml | tail -n 1)
             CHART_NAME=${CHART_NAME//*name: /}
             HELM_EXPERIMENTAL_OCI=1
-            helm push ${CHART_NAME}-1.3.4-extralabels.tgz oci://${{ secrets.HELM_REGISTRY }}/helm
+            helm push ${CHART_NAME}-1.3.3-extralabels.tgz oci://${{ secrets.HELM_REGISTRY }}/helm
 
       # - name: Create a GitHub release
       #   uses: ncipollo/release-action@v1
