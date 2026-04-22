@@ -27,19 +27,19 @@ clientgateway:
     # -- Defines how many events should be pushed per second, regardless of mode chosen (see above).
     events_max_per_second: 2
     # -- The URL of the DSB Message Broker you want to connect to. Trailing / allowed.
-    dsb_base_url: https://ddhub-demo.energyweb.org
+    dsb_base_url: https://ddhub-ewc.energyweb.org
     # -- Sets the chain ID of the blockchain network. Options: 73799 (Volta), 246 (EWC)
-    chain_id: 73799
+    chain_id: 246
     # -- Sets the blockchain RPC node to connect to retreive state from and submit transactions to. Should match the network given in CHAIN_ID.
-    rpc_url: https://volta-rpc.energyweb.org/
+    rpc_url: https://rpc.energyweb.org/
     # -- Sets the Energy Web IAM cache server URL, used to cache identities (as it can be expensive to rely only on querying smart contract data).
-    cache_server_url: https://identitycache-staging.energyweb.org/v1
+    cache_server_url: https://identitycache.energyweb.org/v1
     # -- Sets the Energy Web IAM events server URL, used to receive notification of approved DSB role claims.
-    event_server_url: https://identitycache-staging.energyweb.org/
+    event_server_url: https://identitycache.energyweb.org/
     # -- Sets the Energy Web IAM application namespace. DSB related roles, such as user and messagebroker should fall under this namespace.
-    parent_namespace: ddhub.apps.energyweb.iam.ewc
+    parent_namespace: dsmb.apps.ddhub.energyweb.auth.ewc
     # -- Sets the parent namespace for UI route validation
-    next_public_parent_namespace: ddhub.apps.energyweb.iam.ewc
+    next_public_parent_namespace: dsmb.apps.ddhub.energyweb.auth.ewc
     # -- Sets the secret engine for storing DID private key. it can be Vault/AWS SSM/Azure KeyVault/GCP Secret Manager.
     secret_engine: vault
     # -- Sets the secret engine endpoint. the secret engine server URL.
@@ -65,10 +65,10 @@ clientgateway:
   scheduler:
     enabled: true
     image:
-      repository: aemocontainerregistry.azurecr.io/ddhub-client-gateway-scheduler
+      repository: ewfcontainerregistry.azurecr.io/ddhub-client-gateway-scheduler
       pullPolicy: IfNotPresent
       # Overrides the image tag whose default is the chart appVersion.
-      tag: latest
+      tag: intelligent-canary
     podAnnotations: {}
     resources: {}
     probes: 
@@ -84,10 +84,10 @@ clientgateway:
     enabled: true
     replicaCount: 1
     image:
-      repository: aemocontainerregistry.azurecr.io/ddhub-client-gateway-frontend
+      repository: ewfcontainerregistry.azurecr.io/ddhub-client-gateway-frontend
       pullPolicy: IfNotPresent
       # Overrides the image tag whose default is the chart appVersion.
-      tag: latest
+      tag: intelligent-canary
     podAnnotations: {}
     resources: {}
     probes: 
@@ -110,10 +110,10 @@ clientgateway:
 
 image:
   # repository: 098061033856.dkr.ecr.us-east-1.amazonaws.com/ew-dos-dsb-ecr
-  repository: aemocontainerregistry.azurecr.io/ddhub-client-gateway-backend
+  repository: ewfcontainerregistry.azurecr.io/ddhub-client-gateway-backend
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
-  tag: latest
+  tag: intelligent-canary
 
 imagePullSecrets: []
 nameOverride: "ddhub-client-gateway"
